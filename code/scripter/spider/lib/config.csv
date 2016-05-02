@@ -1,0 +1,3 @@
+name,data,description,is_in_use
+tmp_dir,../tmp/,Temporary Folder,TRUE
+refresh_inv,60,Spider refreshs every 60 Seconds,TRUE

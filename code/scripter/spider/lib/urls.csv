@@ -1,0 +1,5 @@
+spider,name,url,release_day,release_time,time_zone,description,file_type,is_in_use
+PETROLEUM,overview,http://ir.eia.gov/wpsr/overview.pdf,3,10:30,America/New_York,Data Overview (Combined Table 1 and Table 9),pdf,FALSE
+PETROLEUM,report_highlight_1,http://ir.eia.gov/wpsr/wpsrsummary.pdf,3,10:30,America/New_York,Weekly Petroleum Status Report Highlights,pdf,FALSE
+PETROLEUM,report_highlight_2,https://www.eia.gov/petroleum/supply/weekly/pdf/highlights.pdf,3,13:00,America/New_York,Weekly Petroleum Status Report Highlights,pdf,FALSE
+PETROLEUM,balance_sheet,http://ir.eia.gov/wpsr/table1.csv,3,10:30,America/New_York,Table1: U.S. Petroleum Balance Sheet,csv,TRUE
