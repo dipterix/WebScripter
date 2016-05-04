@@ -23,7 +23,7 @@ parser_balance_sheet = function(f){
   
   re['asofdate'] = str_c(asofdate)
   re$data = d
-  re$snapshot = str_c('Date: ', asofdate, '\n', 
+  re$snapshot = str_c('AsOfDate: ', asofdate, '\n', 
         str_c(str_replace_all(apply(d, 1, function(x){str_c(x[1],': ', x[2])}), 
                               '(\\ \\ )',''),collapse = '\n'))
   if(delta >= 12){  # not up to date file

@@ -1,18 +1,20 @@
 # PETROLEUM report scripting
-setwd('C:/Users/Zhengjia/Desktop/WebScripter/spider')
+print(getwd())
+setwd('/home/nitrous/code/WebScripter/scripter/spider')
 source('./lib/import_pkg.R', chdir = T)
 source('./lib/parser.R', chdir = T)
 
 # global vars
 spider_NAME = 'PETROLEUM'
 REF_DIR = str_c(TEMP_DIR, './', spider_NAME)
-DEBUG = T
+SNAPSHOT_DIR = str_c(TEMP_DIR, './', spider_NAME, '.snapshot')
+DEBUG = F
 # subset urls
 spider_TASKS = urls[urls$spider == spider_NAME, ]
 
 # import refresh list
 
-REF_LIST <- suppressWarnings(tryCatch(read.table(REF_DIR, header=T, stringsAsFactors = F, sep = '\t'), error = function(e){data.frame(name = c('snapshot','can_release',spider_TASKS$name), last_refreshed = '2000-01-01 00:00:01 CDT', stringsAsFactors = F)}))
+REF_LIST <- suppressWarnings(tryCatch(read.csv(REF_DIR, header=T, stringsAsFactors = F), error = function(e){data.frame(name = c('can_release',spider_TASKS$name), last_refreshed = '2000-01-01 00:00:01 EDT', stringsAsFactors = F)}))
 snapshot = ''
 can_release = F   # Since it's weekly report, only release when all settled
 
@@ -27,7 +29,7 @@ for(i in 1:nrow(spider_TASKS)){
       data = import_file(row)
       p = parse_data(data, row$name)
       if(p$valid){
-        REF_LIST[REF_LIST$name == row$name, 'last_refreshed'] = str_c(Sys.time())
+        REF_LIST[REF_LIST$name == row$name, 'last_refreshed'] = str_c(as.POSIXct(str_c(format(Sys.time(), tz=DEFAULT_TZ,usetz=TRUE)), tz = DEFAULT_TZ, usetz=TRUE))
         can_release = T
         snapshot = str_c(snapshot, '\n\n', p$snapshot)
       }
@@ -35,7 +37,7 @@ for(i in 1:nrow(spider_TASKS)){
   }
 }
 cat(snapshot)
-REF_LIST[1,2] = str_c(snapshot)
-REF_LIST[2,2] = str_c(can_release)
-write.table(REF_LIST, REF_DIR, sep = '\t', row.names = F)
+REF_LIST[1,2] = str_c(can_release)
+write.csv(REF_LIST, REF_DIR, row.names = F)
+write.table(snapshot, SNAPSHOT_DIR, col.names=F, row.names = F)
 

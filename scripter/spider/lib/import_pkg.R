@@ -21,6 +21,7 @@ config = read.csv('config.csv', header = T, stringsAsFactors = F)
 
 TEMP_DIR = paste0(getwd(),'/',config[config$name == 'tmp_dir', 'data'])
 REFRESH_INV = as.numeric(config[config$name == 'refresh_inv', 'data'])
+DEFAULT_TZ = config[config$name == 'default_tz', 'data']; DEFAULT_TZ
 
 # function registry
 import_file = function(url_row){
@@ -42,16 +43,17 @@ import_file = function(url_row){
   
 }
 
-check_time = function(url_row, AsOfNow = Sys.time()){
+check_time = function(url_row, AsOfNow = format(Sys.time(), tz=DEFAULT_TZ,usetz=TRUE)){
   time = url_row$release_time
-  tz = url_row$time_zone; if(is.na(tz)){tz = Sys.timezone()}
+  tz = url_row$time_zone; if(is.na(tz)){tz = DEFAULT_TZ}
   day = url_row$release_day
-  pb.date <- as.POSIXct(str_c(AsOfNow), tz=Sys.timezone(), format="%Y-%m-%d %H:%M:%S")
-  now = as.POSIXct(format(pb.date, tz=tz,usetz=TRUE), tz = tz, format="%Y-%m-%d %H:%M:%S")
+  pb.date <- as.POSIXct(str_c(AsOfNow), tz=DEFAULT_TZ)
+  now = as.POSIXct(format(pb.date, tz=tz,usetz=TRUE), tz = tz)
 
   refresh = c(T, 0)   # refresh[1]: we may get data, refresh[2]: how many interval passed
   if(!is.na(time)){
     check_time_sp = strptime(time, '%H:%M', tz = tz)
+    print(str_c(check_time_sp, '\t', now))
     if(now > check_time_sp){
       refresh[2] = as.numeric(now - check_time_sp, unit='secs')/REFRESH_INV
     }

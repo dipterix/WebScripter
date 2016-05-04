@@ -1,3 +1,4 @@
 name,data,description,is_in_use
 tmp_dir,../tmp/,Temporary Folder,TRUE
-refresh_inv,60,Spider refreshs every 60 Seconds,TRUE
+refresh_inv,300,Spider refreshs every 60 Seconds,TRUE
+default_tz,America/New_York,Default Time zone,TRUE
