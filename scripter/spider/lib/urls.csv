@@ -3,3 +3,4 @@ PETROLEUM,overview,http://ir.eia.gov/wpsr/overview.pdf,3,10:30,America/New_York,
 PETROLEUM,report_highlight_1,http://ir.eia.gov/wpsr/wpsrsummary.pdf,3,10:30,America/New_York,Weekly Petroleum Status Report Highlights,pdf,FALSE
 PETROLEUM,report_highlight_2,https://www.eia.gov/petroleum/supply/weekly/pdf/highlights.pdf,3,13:00,America/New_York,Weekly Petroleum Status Report Highlights,pdf,FALSE
 PETROLEUM,balance_sheet,http://ir.eia.gov/wpsr/table1.csv,3,10:30,America/New_York,Table1: U.S. Petroleum Balance Sheet,csv,TRUE
+GOOGLE_NEWS,gas_pipeline_explosion,"https://www.google.com/search?q=us+gas+pipeline+explosion&hl=en&gl=us&tbs=qdr:w,sbd:1&tbm=nws",,,,Key words: us gas pipeline explosion,html,TRUE

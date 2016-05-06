@@ -1,7 +1,7 @@
 # install packages
 {
 inst_pkges = installed.packages()[,'Package']
-pkges = c('stringr', 'plyr', 'tm', 'reshape2')
+pkges = c('stringr', 'plyr', 'tm', 'reshape2', 'RCurl', 'XML', 'urltools')
 reqr_pkges = pkges[!(pkges %in% inst_pkges)]
 if(length(reqr_pkges) > 0){
   install.packages(reqr_pkges)
@@ -65,6 +65,11 @@ check_time = function(url_row, AsOfNow = format(Sys.time(), tz=DEFAULT_TZ,usetz=
     refresh[1] = F
   }
   refresh
+}
+
+system_time = function(tz=DEFAULT_TZ,usetz=TRUE){
+  now <- format(Sys.time(), tz=DEFAULT_TZ,usetz=TRUE)
+  now
 }
 
 #read.pdf = function(url, name){

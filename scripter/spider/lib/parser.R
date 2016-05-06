@@ -1,3 +1,10 @@
+# load packages
+require(RCurl)
+require(XML)
+require(stringr)
+require(urltools)
+require(plyr)
+
 # parse_data
 gen_re = function(){
   re = list(
@@ -29,6 +36,36 @@ parser_balance_sheet = function(f){
   if(delta >= 12){  # not up to date file
     re$valid = F
   }
+  re
+}
+
+parser_google_news = function(html){
+  re = gen_re()
+  now = str_c(system_time())
+  doc = htmlParse(html, asText = T)
+  newslist = ldply(doc["//div[@class='g']"], function(x){
+    para = htmlParse(toString.XMLNode(x), asText = T)
+    #getNodeSet(x, "//h3[@class='r']")
+    title = str_trim(xpathSApply(para, "//h3[@class='r']/a", xmlValue))
+    src = xpathSApply(para, "//div[@class='slp']/span", xmlValue)
+    bref = str_replace_all(xpathSApply(para, "//div[@class='st']", xmlValue), 'Ã|Â', '')
+    link = xpathSApply(para, "//h3[@class='r']/a", xmlAttrs)[['href']]
+    link = URLdecode(param_get(link, 'q')[[1]])
+    snapshot = str_c('<a href="', link, '"><b>', title, '</b></a><br><i>',src,'</i><br>', bref)
+    data.frame(Title = title, News_Source = src, Intro=bref, URL=link, snapshot=snapshot, key = str_sub(title, end = 30), stringsAsFactors = F)
+  })
+  
+  if(nrow(newslist) > 0){
+    newslist$Timestamp = now
+    re$valid = T
+  } else{
+    re$valid = F
+  }
+  
+  
+  re$asofdate = now
+  re$data = newslist
+  re$snapshot = ""
   re
 }
 

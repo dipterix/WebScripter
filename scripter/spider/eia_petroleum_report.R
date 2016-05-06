@@ -1,8 +1,16 @@
+require(stringr)
 # PETROLEUM report scripting
 print(getwd())
-setwd('/home/nitrous/code/WebScripter/scripter/spider')
-source('./lib/import_pkg.R', chdir = T)
-source('./lib/parser.R', chdir = T)
+if(str_sub(getwd(), end=1) == '/'){
+  setwd('/home/nitrous/code/WebScripter/scripter/spider')
+  source('./lib/import_pkg.R', chdir = T)
+  source('./lib/parser.R', chdir = T)
+} else{
+  setwd('C:/Users/Zhengjia/Desktop/code/code/WebScripter/scripter/spider')
+  source('./lib/import_pkg.R', chdir = T)
+  source('./lib/parser.R', chdir = T)
+}
+
 
 # global vars
 spider_NAME = 'PETROLEUM'
